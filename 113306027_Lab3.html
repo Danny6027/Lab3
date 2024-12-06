@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <div align="middle">
+    <h1 id="pageTitle">113306027_Lab3_Number Guessing Game</h1>
+    <div id="resultContainer"></div>
+
+    <script>
+        // 隨機生成目標數字，範圍 1~100
+        var targetNumber = Math.floor(Math.random() * 100) + 1;
+        var maxAttempts = 7;
+        var attemptsLeft = maxAttempts;
+        var lowerBound = 1;
+        var upperBound = 100;
+        var guessedCorrectly = false;
+
+        while (attemptsLeft > 0 && !guessedCorrectly) {
+            const userInput = window.prompt(`請輸入一個數字 (${lowerBound} ~ ${upperBound})\n剩餘次數：${attemptsLeft}`);
+            
+            // 檢查是否為有效輸入
+            if (userInput === null || userInput.trim() === "" || isNaN(userInput)) {
+                alert("請輸入有效的數字！");
+                continue;
+            }
+
+            const guessedNumber = Number(userInput);
+            if (guessedNumber < lowerBound || guessedNumber > upperBound) {
+                alert(`請輸入範圍內的數字 (${lowerBound} ~ ${upperBound})！`);
+                continue;
+            }
+
+            attemptsLeft--;
+
+            if (guessedNumber === targetNumber) {
+                alert("恭喜你！猜對了！");
+                guessedCorrectly = true;
+                document.getElementById("resultContainer").innerHTML = `<img src='correct.jpg' alt='Correct!' style='width:800px;'>`;
+            } else if (guessedNumber > targetNumber) {
+                alert("太大了！");
+                upperBound = guessedNumber - 1;
+            } else {
+                alert("太小了！");
+                lowerBound = guessedNumber + 1;
+            }
+        }
+
+        if (!guessedCorrectly) {
+            alert(`很可惜，你的次數用完了！正確答案是：${targetNumber}`);
+            document.getElementById("resultContainer").innerHTML = `<img src='wrong.jpg' alt='Wrong!' style='width:800px;'>`;
+        }
+    </script>
+</div>
+</body>
+</html>
